@@ -39,7 +39,7 @@ int consoleWidth, consoleHeight;
 
 - `gotoxy(int x, int y)`: Moves the cursor to a specific `(x, y)` position in the console using `SetConsoleCursorPosition()`.
 
-## Struct: `Point`
+### Struct: `Point`
 ```cpp
 struct Point{
     int xCoord, yCoord;
@@ -52,7 +52,7 @@ struct Point{
 ```
 - Represents a coordinate (x, y) used for snake segments and food.
 
-## Class: `Snake`
+### Class: `Snake`
 ```cpp
 class Snake{
     int length;
@@ -64,7 +64,7 @@ class Snake{
   - `changeDirection()`: Changes movement direction while preventing 180-degree turns.
   - `move()`: Updates snake position, checks for collisions, and handles food consumption.
 
-## Class: `Board`
+### Class: `Board`
 ```cpp
 class Board{
     Snake *snake;
@@ -78,7 +78,7 @@ class Board{
   - `update()`: Moves the snake, checks for collisions, and updates the score.
   - `getInput()`: Detects user keypresses.
 
-## `main()` Function
+### `main()` Function
 ```cpp
 int main(){
     srand(time(0));
@@ -97,5 +97,5 @@ int main(){
 - Runs a loop that updates the snake's movement and checks for game-over conditions.
 - Calls end() to display the final score and ask if the user wants to play again.
 
-## `end()` Function
+### `end()` Function
 - Displays the game-over message, handles replay, and exits the program.
