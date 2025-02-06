@@ -61,8 +61,8 @@ class Snake{
 ```
 - Stores the snake's length, direction, and body segments.
 - Methods:
-- - `changeDirection()`: Changes movement direction while preventing 180-degree turns.
-- - `move()`: Updates snake position, checks for collisions, and handles food consumption.
+  - `changeDirection()`: Changes movement direction while preventing 180-degree turns.
+  - `move()`: Updates snake position, checks for collisions, and handles food consumption.
 
 ## Class: `Board`
 ```cpp
@@ -73,10 +73,10 @@ class Board{
 ```
 - Manages game logic, drawing, and food spawning.
 - Methods:
-- - `spawnFood()`: Generates random food locations.
-- - `draw()`: Clears and redraws the game board.
-- - `update()`: Moves the snake, checks for collisions, and updates the score.
-- - `getInput()`: Detects user keypresses.
+  - `spawnFood()`: Generates random food locations.
+  - `draw()`: Clears and redraws the game board.
+  - `update()`: Moves the snake, checks for collisions, and updates the score.
+  - `getInput()`: Detects user keypresses.
 
 ## `main()` Function
 ```cpp
