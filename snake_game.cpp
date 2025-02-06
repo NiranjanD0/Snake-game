@@ -139,16 +139,16 @@ public:
         displayCurrentScore();
         gotoxy(0, 1);
         for(int i = 0; i < consoleWidth; i++){
-            cout << "-";
+            cout << "#";
         }
         for(int i = 2; i < consoleHeight - 1; i++){
-            gotoxy(0, i); cout << "|";
+            gotoxy(0, i); cout << "#";
             gotoxy(consoleWidth - 1, i);
-            cout << "|";
+            cout << "#";
         }
         gotoxy(0, consoleHeight - 1);
         for(int i = 0; i < consoleWidth; i++){
-            cout << "-";
+            cout << "#";
         }
         for(int i = 0; i < snake->getLength(); i++){
             gotoxy(snake->body[i].xCoord, snake->body[i].yCoord);
@@ -227,15 +227,15 @@ void end(){
     else{
         system("cls");
         for(int i = 0; i < consoleWidth; i++){  //^^
-            cout << "-";
+            cout << "#";
         }
         for(int i = 1; i < consoleHeight - 1; i++){ //<< >>
-            gotoxy(0, i); cout << "|";
-            gotoxy(consoleWidth - 1, i); cout << "|";
+            gotoxy(0, i); cout << "#";
+            gotoxy(consoleWidth - 1, i); cout << "#";
         }
         gotoxy(0, consoleHeight - 1);
         for(int i = 0; i < consoleWidth; i++){ //vv
-            cout << "-";
+            cout << "#";
         }
         int i = 3;
         gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
