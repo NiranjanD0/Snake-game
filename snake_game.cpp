@@ -13,6 +13,10 @@ const char DIR_RIGHT = 'R';
 
 int consoleWidth, consoleHeight;
 
+void setColor(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
 void hideCursor() {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO info;
@@ -137,62 +141,71 @@ public:
         food = Point(x, y);
     }
 
-    void displayCurrentScore(){
+    // void displayCurrentScore(){
+    //     gotoxy(consoleWidth / 2 - 7, 0);
+    //     cout << "Current Score : " << score;
+    // }
+    void displayCurrentScore() {
         gotoxy(consoleWidth / 2 - 7, 0);
+        setColor(14); // Yellow
         cout << "Current Score : " << score;
+        setColor(7);  // Reset to default
     }
 
     // void draw(){
-    //     system("cls");
-    //     displayCurrentScore();
-    //     gotoxy(0, 1);
-    //     for(int i = 0; i < consoleWidth; i++){
-    //         cout << static_cast<char>(219);
+    //     static vector<Point> prevSnakeBody;
+        
+    //     // Erase the previous snake body
+    //     for(Point p : prevSnakeBody){
+    //         gotoxy(p.xCoord, p.yCoord);
+    //         cout << " ";  // Erase previous position
     //     }
-    //     for(int i = 2; i < consoleHeight - 1; i++){
-    //         gotoxy(0, i);
-    //         cout << static_cast<char>(219);
-    //         gotoxy(consoleWidth - 1, i);
-    //         cout << static_cast<char>(219);
-    //     }
-    //     gotoxy(0, consoleHeight - 1);
-    //     for(int i = 0; i < consoleWidth; i++){
-    //         cout << static_cast<char>(219);
-    //     }
+        
+    //     prevSnakeBody.clear();
+        
+    //     // Draw new snake body
     //     for(int i = 0; i < snake->getLength(); i++){
     //         gotoxy(snake->body[i].xCoord, snake->body[i].yCoord);
     //         cout << SNAKE_BODY;
+    //         prevSnakeBody.push_back(snake->body[i]);
     //     }
+    
+    //     // Draw food
     //     gotoxy(food.xCoord, food.yCoord);
     //     cout << FOOD;
+    
+    //     // Display score
+    //     displayCurrentScore();
     // }
-
-    void draw(){
+    
+    void draw() {
         static vector<Point> prevSnakeBody;
-        
+    
         // Erase the previous snake body
-        for(Point p : prevSnakeBody){
+        for (Point p : prevSnakeBody) {
             gotoxy(p.xCoord, p.yCoord);
             cout << " ";  // Erase previous position
         }
-        
         prevSnakeBody.clear();
-        
+    
         // Draw new snake body
-        for(int i = 0; i < snake->getLength(); i++){
+        setColor(10); // Green for snake
+        for (int i = 0; i < snake->getLength(); i++) {
             gotoxy(snake->body[i].xCoord, snake->body[i].yCoord);
             cout << SNAKE_BODY;
             prevSnakeBody.push_back(snake->body[i]);
         }
+        setColor(7); // Reset to default
     
         // Draw food
+        setColor(12); // Red for food
         gotoxy(food.xCoord, food.yCoord);
         cout << FOOD;
+        setColor(7); // Reset to default
     
         // Display score
         displayCurrentScore();
     }
-    
 
     bool update(){
         bool isAlive = snake->move(food);
@@ -225,19 +238,35 @@ public:
     }
 };
 
-void boundary(){
-    for(int i = 0; i < consoleWidth; i++){  //^^
+void boundary() {
+    setColor(9); // Light Blue for walls
+    for (int i = 0; i < consoleWidth; i++) {  
         cout << static_cast<char>(219);
     }
-    for(int i = 1; i < consoleHeight - 1; i++){ //<< >>
+    for (int i = 1; i < consoleHeight - 1; i++) { 
         gotoxy(0, i); cout << static_cast<char>(219);
         gotoxy(consoleWidth - 1, i); cout << static_cast<char>(219);
     }
     gotoxy(0, consoleHeight - 1);
-    for(int i = 0; i < consoleWidth; i++){ //vv
+    for (int i = 0; i < consoleWidth; i++) {  
         cout << static_cast<char>(219);
     }
+    setColor(7); // Reset to default
 }
+
+// void boundary(){
+//     for(int i = 0; i < consoleWidth; i++){  //^^
+//         cout << static_cast<char>(219);
+//     }
+//     for(int i = 1; i < consoleHeight - 1; i++){ //<< >>
+//         gotoxy(0, i); cout << static_cast<char>(219);
+//         gotoxy(consoleWidth - 1, i); cout << static_cast<char>(219);
+//     }
+//     gotoxy(0, consoleHeight - 1);
+//     for(int i = 0; i < consoleWidth; i++){ //vv
+//         cout << static_cast<char>(219);
+//     }
+// }
 void start(){
     system("cls");
     boundary();
@@ -337,28 +366,44 @@ int main(){
     return 0;
 }
 
-void end(){
+void end() {
     char choice = '-';
     gotoxy(consoleWidth / 2 - 8, consoleHeight / 2 - 2);
+    
+    setColor(12); // Red
     cout << "!! GAME OVER !!";
+    setColor(7); // Reset to default
+    
     gotoxy(consoleWidth / 2 - 9, consoleHeight / 2 + 2);
+    
+    setColor(14); // Yellow
     cout << "Play Again? (Y/N)";
-    while(choice != 'y' && choice != 'Y' && choice != 'N' && choice != 'n'){
+    setColor(7); // Reset to default
+    
+    while (choice != 'y' && choice != 'Y' && choice != 'N' && choice != 'n') {
         choice = _getch();
     }
-    if(choice == 'Y' || choice == 'y'){
+
+    if (choice == 'Y' || choice == 'y') {
         system("cls");
         game();
-    } 
-    else{
+    } else {
         system("cls");
         boundary();
         int i = 3;
         gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
+        
+        setColor(11); // Light Cyan
         cout << "Thanks for playing!!";
-        while(i != -1){
+        setColor(7); // Reset to default
+        
+        while (i != -1) {
             gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 + 1);
+            
+            setColor(14); // Yellow
             cout << "Closing in " << i << " seconds.";
+            setColor(7); // Reset to default
+            
             Sleep(1000);
             i--;
         }
@@ -366,3 +411,32 @@ void end(){
         exit(0);
     }
 }
+// void end(){
+//     char choice = '-';
+//     gotoxy(consoleWidth / 2 - 8, consoleHeight / 2 - 2);
+//     cout << "!! GAME OVER !!";
+//     gotoxy(consoleWidth / 2 - 9, consoleHeight / 2 + 2);
+//     cout << "Play Again? (Y/N)";
+//     while(choice != 'y' && choice != 'Y' && choice != 'N' && choice != 'n'){
+//         choice = _getch();
+//     }
+//     if(choice == 'Y' || choice == 'y'){
+//         system("cls");
+//         game();
+//     } 
+//     else{
+//         system("cls");
+//         boundary();
+//         int i = 3;
+//         gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
+//         cout << "Thanks for playing!!";
+//         while(i != -1){
+//             gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 + 1);
+//             cout << "Closing in " << i << " seconds.";
+//             Sleep(1000);
+//             i--;
+//         }
+//         system("cls");
+//         exit(0);
+//     }
+// }
