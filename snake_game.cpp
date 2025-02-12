@@ -130,7 +130,7 @@ public:
     }
 
     void displayCurrentScore(){
-        gotoxy(consoleWidth / 2 - 5, 0);
+        gotoxy(consoleWidth / 2 - 7, 0);
         cout << "Current Score : " << score;
     }
 
@@ -139,16 +139,17 @@ public:
         displayCurrentScore();
         gotoxy(0, 1);
         for(int i = 0; i < consoleWidth; i++){
-            cout << "#";
+            cout << static_cast<char>(219);
         }
         for(int i = 2; i < consoleHeight - 1; i++){
-            gotoxy(0, i); cout << "#";
+            gotoxy(0, i);
+            cout << static_cast<char>(219);
             gotoxy(consoleWidth - 1, i);
-            cout << "#";
+            cout << static_cast<char>(219);
         }
         gotoxy(0, consoleHeight - 1);
         for(int i = 0; i < consoleWidth; i++){
-            cout << "#";
+            cout << static_cast<char>(219);
         }
         for(int i = 0; i < snake->getLength(); i++){
             gotoxy(snake->body[i].xCoord, snake->body[i].yCoord);
@@ -189,17 +190,38 @@ public:
     }
 };
 
+void start(){
+    system("cls");
+    for(int i = 0; i < consoleWidth; i++){  //^^
+        cout << static_cast<char>(219);
+    }
+    for(int i = 1; i < consoleHeight - 1; i++){ //<< >>
+        gotoxy(0, i); cout << static_cast<char>(219);
+        gotoxy(consoleWidth - 1, i); cout << static_cast<char>(219);
+    }
+    gotoxy(0, consoleHeight - 1);
+    for(int i = 0; i < consoleWidth; i++){ //vv
+        cout << static_cast<char>(219);
+    }
+    gotoxy(consoleWidth / 2 - 10, consoleHeight / 2);
+    cout << "Press \"SPACE\" to start the game!!";
+    char choice = '+';
+    while(choice != ' '){
+        choice = _getch();
+    }
+}
 void end();
 int hscr=0;
 
 int main(){
     srand(time(0));
     initScreen();
+    start();
     Board *board = new Board();
     while(board->update()){
         board->getInput();
         board->draw();
-        Sleep(80);
+        Sleep(70);
     }
     int scr = board->getScore();
     if(scr>hscr){
@@ -227,21 +249,21 @@ void end(){
     else{
         system("cls");
         for(int i = 0; i < consoleWidth; i++){  //^^
-            cout << "#";
+            cout << static_cast<char>(219);
         }
         for(int i = 1; i < consoleHeight - 1; i++){ //<< >>
-            gotoxy(0, i); cout << "#";
-            gotoxy(consoleWidth - 1, i); cout << "#";
+            gotoxy(0, i); cout << static_cast<char>(219);
+            gotoxy(consoleWidth - 1, i); cout << static_cast<char>(219);
         }
         gotoxy(0, consoleHeight - 1);
         for(int i = 0; i < consoleWidth; i++){ //vv
-            cout << "#";
+            cout << static_cast<char>(219);
         }
         int i = 3;
         gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
         cout << "Thanks for playing!!";
         while(i != -1){
-            gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 + 1);
+            gotoxy(consoleWidth / 2 - 11, consoleHeight / 2 + 1);
             cout << "Closing in " << i << " seconds.";
             Sleep(1000);
             i--;
