@@ -190,8 +190,7 @@ public:
     }
 };
 
-void start(){
-    system("cls");
+void boundary(){
     for(int i = 0; i < consoleWidth; i++){  //^^
         cout << static_cast<char>(219);
     }
@@ -203,20 +202,34 @@ void start(){
     for(int i = 0; i < consoleWidth; i++){ //vv
         cout << static_cast<char>(219);
     }
-    gotoxy(consoleWidth / 2 - 10, consoleHeight / 2);
+}
+void start(){
+    system("cls");
+    boundary();
+    gotoxy(consoleWidth / 2 - 15, consoleHeight / 2 -5);
+    cout << "=======  SNAKE GAME  =======";
+    gotoxy(consoleWidth / 2 - 17, consoleHeight / 2 + 4);
     cout << "Press \"SPACE\" to start the game!!";
     char choice = '+';
     while(choice != ' '){
         choice = _getch();
     }
 }
+void countdown(){
+    system("cls");
+    boundary();
+    int n=3;
+    while(n!=0){
+        gotoxy(consoleWidth / 2, consoleHeight / 2);
+        cout << n;
+        n--;
+    }
+}
 void end();
 int hscr=0;
 
-int main(){
-    srand(time(0));
-    initScreen();
-    start();
+void game(){
+    countdown();
     Board *board = new Board();
     while(board->update()){
         board->getInput();
@@ -230,6 +243,40 @@ int main(){
     gotoxy(consoleWidth / 2 - 17, consoleHeight / 2);
     cout << "Final score: " << scr << " || Highest Score: " << hscr;
     end();
+}
+
+void rules(){
+    system("cls");
+    boundary();
+    gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 -9);
+    cout << "=== HOW TO PLAY ===";
+    gotoxy(consoleWidth / 2 - 35, consoleHeight / 2 -7);
+    cout << "Use Controls 'W' 'A' 'S' 'D' on your keyboard to change direction of snake.";
+    gotoxy(consoleWidth / 2 - 7, consoleHeight / 2 - 4);
+    cout << "=== RULES ===";
+    gotoxy(consoleWidth / 2 - 32, consoleHeight / 2 - 2);
+    cout << "1. Food will randomly appear, eat to increase your snake size. ";
+    gotoxy(consoleWidth / 2 - 32, consoleHeight / 2 - 1);
+    cout << "2. If the head of the snake touches the boundary, GAME OVER!!";
+    gotoxy(consoleWidth / 2 - 32, consoleHeight / 2);
+    cout << "3. If the snake bites itself, GAME OVER!!";
+
+    gotoxy(consoleWidth / 2 - 22, consoleHeight / 2+7);
+    cout << "Compete with your friends, who scores the MOST!!";
+    gotoxy(consoleWidth / 2 - 22, consoleHeight / 2+10);
+    cout << "Press \"SPACE\" when you are ready to play the game.";
+    char choice = '+';
+    while(choice != ' '){
+        choice = _getch();
+    }
+}
+
+int main(){
+    srand(time(0));
+    initScreen();
+    start();
+    rules();
+    game();
     return 0;
 }
 
@@ -244,7 +291,7 @@ void end(){
     }
     if(choice == 'Y' || choice == 'y'){
         system("cls");
-        main();
+        game();
     } 
     else{
         system("cls");
@@ -263,7 +310,7 @@ void end(){
         gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
         cout << "Thanks for playing!!";
         while(i != -1){
-            gotoxy(consoleWidth / 2 - 11, consoleHeight / 2 + 1);
+            gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 + 1);
             cout << "Closing in " << i << " seconds.";
             Sleep(1000);
             i--;
