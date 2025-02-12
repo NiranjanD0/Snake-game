@@ -13,6 +13,14 @@ const char DIR_RIGHT = 'R';
 
 int consoleWidth, consoleHeight;
 
+void hideCursor() {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.bVisible = FALSE;
+    info.dwSize = 100;
+    SetConsoleCursorInfo(consoleHandle, &info);
+}
+
 void initScreen(){
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -88,7 +96,7 @@ public:
         }
         
         //Snake touches boundary.
-        if(body[0].xCoord <= 0 || body[0].xCoord >= consoleWidth - 1 || body[0].yCoord <= 1 || body[0].yCoord >= consoleHeight - 1){
+        if(body[0].xCoord <= 0 || body[0].xCoord >= consoleWidth - 1 || body[0].yCoord <= 0 || body[0].yCoord >= consoleHeight - 1){
             return false;
         }
 
@@ -134,30 +142,57 @@ public:
         cout << "Current Score : " << score;
     }
 
+    // void draw(){
+    //     system("cls");
+    //     displayCurrentScore();
+    //     gotoxy(0, 1);
+    //     for(int i = 0; i < consoleWidth; i++){
+    //         cout << static_cast<char>(219);
+    //     }
+    //     for(int i = 2; i < consoleHeight - 1; i++){
+    //         gotoxy(0, i);
+    //         cout << static_cast<char>(219);
+    //         gotoxy(consoleWidth - 1, i);
+    //         cout << static_cast<char>(219);
+    //     }
+    //     gotoxy(0, consoleHeight - 1);
+    //     for(int i = 0; i < consoleWidth; i++){
+    //         cout << static_cast<char>(219);
+    //     }
+    //     for(int i = 0; i < snake->getLength(); i++){
+    //         gotoxy(snake->body[i].xCoord, snake->body[i].yCoord);
+    //         cout << SNAKE_BODY;
+    //     }
+    //     gotoxy(food.xCoord, food.yCoord);
+    //     cout << FOOD;
+    // }
+
     void draw(){
-        system("cls");
-        displayCurrentScore();
-        gotoxy(0, 1);
-        for(int i = 0; i < consoleWidth; i++){
-            cout << static_cast<char>(219);
+        static vector<Point> prevSnakeBody;
+        
+        // Erase the previous snake body
+        for(Point p : prevSnakeBody){
+            gotoxy(p.xCoord, p.yCoord);
+            cout << " ";  // Erase previous position
         }
-        for(int i = 2; i < consoleHeight - 1; i++){
-            gotoxy(0, i);
-            cout << static_cast<char>(219);
-            gotoxy(consoleWidth - 1, i);
-            cout << static_cast<char>(219);
-        }
-        gotoxy(0, consoleHeight - 1);
-        for(int i = 0; i < consoleWidth; i++){
-            cout << static_cast<char>(219);
-        }
+        
+        prevSnakeBody.clear();
+        
+        // Draw new snake body
         for(int i = 0; i < snake->getLength(); i++){
             gotoxy(snake->body[i].xCoord, snake->body[i].yCoord);
             cout << SNAKE_BODY;
+            prevSnakeBody.push_back(snake->body[i]);
         }
+    
+        // Draw food
         gotoxy(food.xCoord, food.yCoord);
         cout << FOOD;
+    
+        // Display score
+        displayCurrentScore();
     }
+    
 
     bool update(){
         bool isAlive = snake->move(food);
@@ -208,11 +243,28 @@ void start(){
     boundary();
     gotoxy(consoleWidth / 2 - 15, consoleHeight / 2 -5);
     cout << "=======  SNAKE GAME  =======";
-    gotoxy(consoleWidth / 2 - 17, consoleHeight / 2 + 4);
+    gotoxy(consoleWidth / 2 - 16, consoleHeight / 2 + 4);
     cout << "Press \"SPACE\" to start the game!!";
+    gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 + 6);
+    cout << "Press \"ESC\" to exit.";
     char choice = '+';
-    while(choice != ' '){
+    while(choice != ' ' && choice != 27){
         choice = _getch();
+    }
+    int i = 3;
+    if(choice == 27){
+        system("cls");
+        boundary();
+        gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
+        cout << "Thanks for playing!!";
+        while(i != -1){
+            gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 + 1);
+            cout << "Closing in " << i << " seconds.";
+            Sleep(1000);
+            i--;
+        }
+        system("cls");
+        exit(0);
     }
 }
 void countdown(){
@@ -220,15 +272,19 @@ void countdown(){
     boundary();
     int n=3;
     while(n!=0){
-        gotoxy(consoleWidth / 2, consoleHeight / 2);
-        cout << n;
+        gotoxy(consoleWidth / 2 -8, consoleHeight / 2);
+        cout << "Starting in " << n << "s";
         n--;
+        Sleep(1000);
     }
+    system("cls");
+    boundary();
 }
 void end();
 int hscr=0;
 
 void game(){
+    system("cls");
     countdown();
     Board *board = new Board();
     while(board->update()){
@@ -272,6 +328,7 @@ void rules(){
 }
 
 int main(){
+    hideCursor();
     srand(time(0));
     initScreen();
     start();
