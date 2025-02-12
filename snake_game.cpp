@@ -295,17 +295,7 @@ void end(){
     } 
     else{
         system("cls");
-        for(int i = 0; i < consoleWidth; i++){  //^^
-            cout << static_cast<char>(219);
-        }
-        for(int i = 1; i < consoleHeight - 1; i++){ //<< >>
-            gotoxy(0, i); cout << static_cast<char>(219);
-            gotoxy(consoleWidth - 1, i); cout << static_cast<char>(219);
-        }
-        gotoxy(0, consoleHeight - 1);
-        for(int i = 0; i < consoleWidth; i++){ //vv
-            cout << static_cast<char>(219);
-        }
+        boundary();
         int i = 3;
         gotoxy(consoleWidth / 2 - 10, consoleHeight / 2 - 1);
         cout << "Thanks for playing!!";
