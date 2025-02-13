@@ -1,101 +1,34 @@
-# Snake Game
+# Snake Game in C++
 
 ## Introduction
-This is a simple console-based Snake game implemented in C++. The game runs in the Windows terminal, where the player controls a snake using the `W`, `A`, `S`, and `D` keys to navigate and eat food while avoiding collisions with itself and the game boundary.
+Hey everyone! 😊 This is a simple **Snake Game** written in C++ using the Windows console. The game is controlled with `W`, `A`, `S`, and `D` keys to move the snake. The goal is to eat food and grow the snake without hitting the walls or yourself. Hope you like it! 🎮🐍
 
-## Features
-- Uses Windows-specific functions to control the console cursor and screen size.
-- Implements a dynamic snake movement with the ability to change direction.
-- Includes food spawning and score tracking.
-- Ends when the snake collides with itself or the boundary.
-- Displays the final and highest score, with an option to replay.
+## How to Play
+1. Run the program
+2. Press `SPACE` to start the game
+3. Use `W` (up), `A` (left), `S` (down), `D` (right) to move
+4. Avoid hitting the walls and yourself!
+5. Try to eat as much food as possible to get a high score! 🚀
+6. After **Game Over**, you can restart or exit.
 
-## Code Breakdown
+## How It Works
+- The **Snake** moves in a direction continuously.
+- The `Board` class manages the **snake** and **food**.
+- The **game loop** updates the game, checks for collisions, and draws the snake.
+- If the snake eats food, it **grows**.
+- If the snake hits the wall or itself, **Game Over!**
+- The highest score is saved during runtime.
 
-### Libraries Used
-```cpp
-#include <bits/stdc++.h>
-#include <conio.h>
-#include <windows.h>
-```
-- `#include <bits/stdc++.h>`: Includes all standard C++ libraries.
-- `#include <conio.h>`: Used for detecting keypresses (`getch()` and `kbhit()`).
-- `#include <windows.h>`: Provides Windows-specific functions like `Sleep()` and `SetConsoleCursorPosition()`.
+## Data Structures Used
+- **Arrays (`body[MAX_LENGTH]`)**: Used to store the snake's body coordinates. Each index represents a segment of the snake, with `body[0]` being the head.
+- **Struct (`Point`)**: Defines a point with `xCoord` and `yCoord`, representing positions on the console screen.
+- **Class (`Snake`)**: Manages snake properties such as movement, collision detection, and growth logic.
+- **Class (`Board`)**: Handles the game environment, score tracking, and food generation.
+- **Vector (`prevSnakeBody`)**: Stores previous positions of the snake to efficiently clear the old snake body from the console screen before redrawing it.
+- **Randomization (`rand()`)**: Used in food generation to place food at random locations within the console window boundaries.
 
-### Global Variables & Constants
-```cpp
-#define MAX_LENGTH 1000
-const char DIR_UP = 'U';
-const char DIR_DOWN = 'D';
-const char DIR_LEFT = 'L';
-const char DIR_RIGHT = 'R';
-int consoleWidth, consoleHeight;
-```
-- `MAX_LENGTH`: The maximum length of the snake.
-- `DIR_*`: Constants for snake movement directions.
-- `consoleWidth`, `consoleHeight`: Store console dimensions.
-## Functions
-- `initScreen()`: Initializes the console dimensions using `GetConsoleScreenBufferInfo()`.
+## Notes
+- This game only works on **Windows** because it uses `windows.h` and `_getch()`.
+- The game might flicker a bit due to the console update method.
 
-- `gotoxy(int x, int y)`: Moves the cursor to a specific `(x, y)` position in the console using `SetConsoleCursorPosition()`.
-
-### Struct: `Point`
-```cpp
-struct Point{
-    int xCoord, yCoord;
-    Point() {}
-    Point(int x, int y) {
-        xCoord = x;
-        yCoord = y;
-    }
-};
-```
-- Represents a coordinate (x, y) used for snake segments and food.
-
-### Class: `Snake`
-```cpp
-class Snake{
-    int length;
-    char direction;
-    Point body[MAX_LENGTH];
-```
-- Stores the snake's length, direction, and body segments.
-- Methods:
-  - `changeDirection()`: Changes movement direction while preventing 180-degree turns.
-  - `move()`: Updates snake position, checks for collisions, and handles food consumption.
-
-### Class: `Board`
-```cpp
-class Board{
-    Snake *snake;
-    Point food;
-    int score;
-```
-- Manages game logic, drawing, and food spawning.
-- Methods:
-  - `spawnFood()`: Generates random food locations.
-  - `draw()`: Clears and redraws the game board.
-  - `update()`: Moves the snake, checks for collisions, and updates the score.
-  - `getInput()`: Detects user keypresses.
-
-### `main()` Function
-```cpp
-int main(){
-    srand(time(0));
-    initScreen();
-    Board *board = new Board();
-    while(board->update()){
-        board->getInput();
-        board->draw();
-        Sleep(80);
-    }
-    end();
-    return 0;
-}
-```
-- Initializes the game.
-- Runs a loop that updates the snake's movement and checks for game-over conditions.
-- Calls end() to display the final score and ask if the user wants to play again.
-
-### `end()` Function
-- Displays the game-over message, handles replay, and exits the program.
+Hope you like this game! Happy coding! 🚀
