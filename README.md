@@ -4,10 +4,10 @@
 Hey everyone! 😊 This is a simple **Snake Game** written in C++ using the Windows console. The game is controlled with `W`, `A`, `S`, and `D` keys to move the snake. The goal is to eat food and grow the snake without hitting the walls or yourself. Hope you like it! 🎮🐍
 
 ## Screenshots
-<img src="screenshots/start.png" alt="Description" width="500">
-<img src="screenshots/howtoplay.png" alt="Description" width="500">
-<img src="screenshots/game.png" alt="Description" width="500">
-<img src="screenshots/game-over.png" alt="Description" width="500">
+<img src="screenshots/start.png" alt="Start" width="500">
+<img src="screenshots/howtoplay.png" alt="Instructions" width="500">
+<img src="screenshots/game.png" alt="Gameplay" width="500">
+<img src="screenshots/game-over.png" alt="End" width="500">
 
 ## How to Play
 1. Run the program
